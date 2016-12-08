@@ -1,0 +1,50 @@
+DAY 16 NOTES
+var TIYPerson = function (name) {
+ this.name = name
+}
+TIYPerson.prototype.ironPints = function () {
+ return `Stop working, ${this.name}`
+}
+var TIYStudent = function (name, subject) {
+ TIYPerson.call(this, name)
+ this.subject = subject
+}
+TIYStudent.prototype = Object.create(TIYPerson.prototype)
+var erik = new TIYStudent('erik', 'ruby')
+erik // a TIYStudent object, whose prototype is a TIYPerson
+
+erik.ironPints() // works, bc the TIYStudent prototype has
+// everything a TIYPerson prototype had
+
+TIYStudent.prototype.enjoyClass = function () {
+ return `this ${this.subject} lecture is awesome`
+}
+erik.enjoyClass() // works, bc the object created w the TIYStudent
+// constructor can see everything on the TIYStudent prototype
+
+var susanna = new TIYPerson('Susanna')
+susanna.ironPints() // works, bc obj created w TIYPerson constructor sees everything on TIYPerson prototype
+
+susanna.enjoyClass // undefined, bc the TIYPerson prototype can't see things added directly to TIYStudent prototype
+
+
+steps of this process: (1) create a base constructor (TIYPerson); (2-3) create a related constructor (TIYStudent) and set base methods (TIYPerson.prototype) - those 2 steps can happen in either order; (4) set related prototype (TIYStudent.prototype); (5) set methods on related prototype other than those on base (TIYStudent.prototype.___)
+
+
+
+SECOND EXAMPLE
+     var Animal = function (species){
+      this.species = species}
+
+
+     var Mammal = function (species){
+      Animal.call(this, species)
+      this.liveBirth = true}
+
+      Animal.prototype.breathe = function (){
+         returns `${this.species} exhales carbon dioxide`
+         }
+Mammal.prototype = Object.create(Animal.prototype)
+
+ Mammal.prototype.giveBirth =  function(){
+ return `awww, a little baby ${this.species}`}
